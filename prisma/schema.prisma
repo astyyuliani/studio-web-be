@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -77,7 +77,7 @@ model CategoryPackage {
   id          Int    @id @default(autoincrement())
   name        String @db.VarChar(255)
   description String @db.Text
-  price       Int    @db.Int
+  price       Int    
 
   categoryId Int      @map("category_id")
   category   Category @relation(fields: [categoryId], references: [id])
@@ -94,7 +94,7 @@ model CategoryPackage {
 model CategoryAddon {
   id    Int    @id @default(autoincrement())
   name  String @db.VarChar(255)
-  price Int    @db.Int
+  price Int    
   unit  String @db.VarChar(255)
 
   categoryId Int      @map("category_id")
@@ -130,7 +130,7 @@ enum ReservationStatus {
 model Reservation {
   id     Int               @id @default(autoincrement())
   date   DateTime          @map("date") @db.Date()
-  total  Int               @db.Int
+  total  Int               
   status ReservationStatus @default(pending)
 
   userId            String          @map("user_id")
@@ -156,7 +156,7 @@ model Reservation {
 
 model ReservationDetail {
   id       Int @id @default(autoincrement())
-  quantity Int @db.Int
+  quantity Int 
 
   reservationId   Int           @map("reservation_id")
   reservation     Reservation   @relation(fields: [reservationId], references: [id])
@@ -186,7 +186,7 @@ enum TransactionValid {
 
 model Transaction {
   id     Int               @id @default(autoincrement())
-  total  Int               @db.Int
+  total  Int               
   status TransactionStatus @default(unpaid) @map("transaction_status")
   type   TransactionType   @map("transaction_type")
 
@@ -203,7 +203,7 @@ model Transaction {
 
 model TransactionDetail {
   id      Int               @id @default(autoincrement())
-  total   Int               @db.Int
+  total   Int              
   type    TransactionType   @map("transaction_type")
   isValid TransactionValid? @map("is_valid")
 
@@ -220,7 +220,7 @@ model TransactionDetail {
 
 model Review {
   id     Int    @id @default(autoincrement())
-  rating Int    @db.Int
+  rating Int    
   review String @db.Text
 
   reservationId Int         @map("reservation_id")
